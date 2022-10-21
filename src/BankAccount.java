@@ -52,7 +52,7 @@ public class BankAccount {
     }
 
     void withdraw(int amount) {
-        if(amount > 0 && balance > 0){
+        if(amount > 0 && balance >= amount){
             balance = balance - amount;
             previousTransaction = -amount;
         }else{
