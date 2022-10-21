@@ -43,19 +43,37 @@ public class BankAccount {
     // ba.deposit("100") //compile error - invalid args (datatype)
     // ba.deposit(100)
     void deposit(int amount) {
-
+        if(amount > 0){
+            balance = balance + amount;
+            previousTransaction = amount;
+        }else{
+            errorMessage("Invalid amount! Please enter correct amount.");
+        }
     }
 
     void withdraw(int amount) {
-
-    }
-
-    public int getBalance() {
-        return 0;
+        if(amount > 0 && balance > 0){
+            balance = balance - amount;
+            previousTransaction = -amount;
+        }else{
+            if(amount <= 0){
+                errorMessage("Invalid amount! Please enter correct amount.");
+            }else{
+                errorMessage("Insufficient Balance!");
+            }
+        }
     }
 
     void getPreviousTransaction() {
-
+        if(previousTransaction > 0){
+            //deposit
+            System.out.println("Deposited: $"+ previousTransaction);
+        }else if(previousTransaction < 0){
+            //withdrawal
+            System.out.println("Withdrew: $"+ Math.abs(previousTransaction));
+        }else{
+            System.out.println("No transaction.");
+        }
     }
 
     void errorMessage(String message) {
@@ -80,14 +98,46 @@ public class BankAccount {
                 );
                 option = input.next().charAt(0); // [a]sdasdads sgasgagsasf
 
-                switch (option) {
+                ATM.clrscr();
+
+                switch (Character.toLowerCase(option)) {
                     case 'a':
+                        System.out.println("-------------------------------");
+                        System.out.println("Your balance is: " + balance);
+                        System.out.println("-------------------------------");
                         break;
                     case 'b':
+                        System.out.println("-------------------------------");
+                        System.out.println("Enter an amount to deposit");
+                        System.out.println("-------------------------------");
+
+                        try{
+                            int amount = input.nextInt();
+                            deposit(amount);
+                        }catch(Exception e){
+                            errorMessage("Wrong Input! Only integers please");
+                        }
+
                         break;
                     case 'c':
+                        System.out.println("-------------------------------");
+                        System.out.println("Enter an amount to withdraw");
+                        System.out.println("-------------------------------");
+
+                        try{
+                            int amount = input.nextInt();
+                            withdraw(amount);
+                        }catch(Exception e){
+                            errorMessage("Wrong Input! Only integers please");
+                        }
+
                         break;
                     case 'd':
+                        System.out.println("-------------------------------");
+                        System.out.println("Previous Transaction");
+                        System.out.println("-------------------------------");
+                        getPreviousTransaction();
+
                         break;
                 
                     default:
